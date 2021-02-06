@@ -6,6 +6,9 @@ The PLANiTS v1 training files and trained files ready for use with the RDP class
 
 # Overview
 
+[Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)   
+[Train and test the RDP Classifier](#Train-and-test-the-RDP-Classifier)   
+
 # Get PLANiTS data and prepare it
 
 1. Obtain PLANiTS data from https://github.com/apallavicini/PLANiTS , decompress it, and enter the directory.
@@ -155,9 +158,3 @@ Banchi, E.; Ametrano, C.G.; Greco, S.; Stanković, D.; Muggia, L.; Pallavicini, 
 Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. Available from https://sourceforge.net/projects/rdp-classifier/
 
 Last updated: February 6, 2021
-
-
-
-
-
-
