@@ -4,12 +4,12 @@ Here is the method I used to convert the QIIME-formatted PLANiTS files for use w
 
 The PLANiTS v1 training files and trained files ready for use with the RDP classifier are available at https://github.com/terrimporter/PLANiTS_ITSClassifier/releases .
 
-# Overview
+## Overview
 
 [Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)   
 [Train and test the RDP Classifier](#Train-and-test-the-RDP-Classifier)   
 
-# Get PLANiTS data and prepare it
+## Get PLANiTS data and prepare it
 
 1. Obtain PLANiTS data from https://github.com/apallavicini/PLANiTS , decompress it, and enter the directory.
 
@@ -118,7 +118,7 @@ vi -c '1,$s/NA;Araucariales;/Pinopsida;Araucariales;/' -c "wq" ITS_taxonomy2
 perl qiime_planits_to_rdp.plx ITS.fasta.derep.strict ITS_taxonomy2
 ```
 
-# Train and test the RDP Classifier
+## Train and test the RDP Classifier
 
 1. Train the RDP Classifier.
 
@@ -150,6 +150,26 @@ java -Xmx25g -jar /path/to/rdp_classifier_2.13/dist/classifier.jar classify -t m
 ```linux
 java -Xmx25g -jar  /path/to/rdp_classifier_2.13/dist/classifier.jar loot -q mytrainseq.fasta -s mytrainseq.fasta -t mytaxon.txt -l 200 -o test_200_loso_test.txt
 ```
+
+## Releases
+
+### v1.0
+
+This version is based on the PLANiTS reference set (29_03_2020) available from https://github.com/apallavicini/PLANiTS .  Sequences were dereplicated to avoid inflating accuracy during leave one out testing.  Some taxa were edited to manage unknown (NA) and non-unique taxa to ensure a strictly hierarchical taxonomy using NCBI taxonomy as a guide.  
+
+The v1 release can be downloaded from https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/tag/v1.0 .  These files are ready to be used with the RDP classifier and were tested using v2.13.  The original files used to train the classifier v1-ref can be downloaded from https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/tag/v1.0-ref and include a FASTA sequence file and taxonomy file.  
+
+Assuming that your query sequences are present in the reference set, assignments to the genus to kingdom rank were found to be  correct at least 95% of the time (no bootstrap cutoff needed).  Assignments to the species rank, however, were found to be correct at least 70% of the time when a bootstrap support cutoff of 0.90 is used to filter query sequences that are ~ 200 bp in length.
+
+Rank | 200 bp  
+:--- | :---:  
+Kingdom | 0  
+Phylum | 0  
+Class | 0 
+Order | 0
+Family | 0
+Genus | 0  
+Species | 0.9  
 
 # References
 
