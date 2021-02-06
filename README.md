@@ -115,13 +115,15 @@ vi -c '1,$s/NA;Araucariales;/Pinopsida;Araucariales;/' -c "wq" ITS_taxonomy2
 perl qiime_planits_to_rdp.plx ITS.fasta.derep.strict ITS_taxonomy2
 ```
 
-8. Train the RDP Classifier.
+# Train and test the RDP Classifier
+
+1. Train the RDP Classifier.
 
 ```linux
 java -Xmx30g -jar /home/terri/rdp_classifier_2.13/dist/classifier.jar train -o mytrained -s mytrainseq.fasta -t mytaxon.txt
 ```
 
-9. Add the rRNAClassifier.properties file to the newly created mytrained directory (not optional).  I also like to edit the RDP Classifier version and date in rRNAClassifier.properties (optional).
+2. Add the rRNAClassifier.properties file to the newly created mytrained directory (not optional).  I also like to edit the RDP Classifier version and date in rRNAClassifier.properties (optional).
 
 ```linux
 cd mytrained
@@ -129,22 +131,30 @@ cp ~/rdp_classifier_2.13/src/data/classifier/16srrna/rRNAClassifier.properties .
 cd ..
 ```
 
-10. Create a small fasta file for testing.
+3. Create a small fasta file for testing.
 ```linux
 head -20 ITS.fasta.derep.strict > test.fasta
 ```
 
-11. Test the RDP classifier.
+4. Test the RDP classifier.
 
 ```linux
 java -Xmx25g -jar /path/to/rdp_classifier_2.13/dist/classifier.jar classify -t mytrained/rRNAClassifier.properties -o test_classified.txt test.fasta 
 ```
 
-12. Conduct leave one sequence out testing to assess classifier accuracy.
+5. Conduct leave one sequence out testing to assess classifier accuracy.
 
 ```linux
 java -Xmx25g -jar  /path/to/rdp_classifier_2.13/dist/classifier.jar loot -q mytrainseq.fasta -s mytrainseq.fasta -t mytaxon.txt -l 200 -o test_200_loso_test.txt
 ```
+
+# References
+
+Banchi, E.; Ametrano, C.G.; Greco, S.; Stanković, D.; Muggia, L.; Pallavicini, A. PLANiTS: a curated sequence reference dataset for plant ITS DNA metabarcoding. Database 2020, 2020.
+
+Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. Available from https://sourceforge.net/projects/rdp-classifier/
+
+Last updated: February 6, 2021
 
 
 
