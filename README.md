@@ -8,6 +8,7 @@ The PLANiTS v1 training files and trained files ready for use with the RDP class
 
 [Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)   
 [Train and test the RDP Classifier](#Train-and-test-the-RDP-Classifier)   
+[Releases](#Releases)   
 
 ## Get PLANiTS data and prepare it
 
