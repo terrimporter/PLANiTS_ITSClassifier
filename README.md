@@ -6,9 +6,25 @@ The PLANiTS v1 training files and trained files ready for use with the RDP class
 
 ## Overview
 
+[How to classify your sequences](#How-to-classify-your-sequences)   
 [Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)   
 [Train and test the RDP Classifier](#Train-and-test-the-RDP-Classifier)   
 [Releases](#Releases)   
+
+## How to classify your sequences
+
+1. Download the latest version of the RDP-formatted PLANiTS reference set and decompress it.
+
+```linux
+wget https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/download/v1.0/PLANiTSv032920.tar.gz
+tar -xvzf PLANiTSv032920.tar.gz
+```
+
+2. Run the RDP Classifier.
+
+```linux
+java -Xmx25g -jar /path/to/rdp_classifier_2.13/dist/classifier.jar classify -t PLANiTSv032920/rRNAClassifier.properties -o outfile.txt query.fasta 
+```
 
 ## Get PLANiTS data and prepare it
 
