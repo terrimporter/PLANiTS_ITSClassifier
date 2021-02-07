@@ -28,6 +28,8 @@ java -Xmx25g -jar /path/to/rdp_classifier_2.13/dist/classifier.jar classify -t P
 
 ## Get PLANiTS data and prepare it
 
+The following steps are only needed if you are interested in the steps I took to reform QIIME formatted files for use with the  RDP classifier.
+
 1. Obtain PLANiTS data from https://github.com/apallavicini/PLANiTS , decompress it, and enter the directory.
 
 ```linux
