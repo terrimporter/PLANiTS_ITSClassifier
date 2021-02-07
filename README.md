@@ -140,6 +140,7 @@ perl qiime_planits_to_rdp.plx ITS.fasta.derep.strict ITS_taxonomy2
 1. Train the RDP Classifier.
 
 ```linux
+# rdp_classifier_2.13
 java -Xmx30g -jar /home/terri/rdp_classifier_2.13/dist/classifier.jar train -o mytrained -s mytrainseq.fasta -t mytaxon.txt
 ```
 
