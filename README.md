@@ -269,7 +269,7 @@ The v1 release can be downloaded from https://github.com/terrimporter/PLANiTS_IT
 
 Assuming that your query sequences are present in the reference set, assignments to the genus to kingdom rank were found to be  correct at least 95% of the time (no bootstrap cutoff needed).  Assignments to the species rank, however, were found to be correct at least 70% of the time when a bootstrap support cutoff of 0.90 is used to filter query sequences that are ~ 200 bp in length.
 
-Rank | 200 bp  
+Rank | 200 bp** to be updated  
 :--- | :---:  
 Kingdom | 0  
 Phylum | 0  
