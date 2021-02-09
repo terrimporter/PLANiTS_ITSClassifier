@@ -27,9 +27,10 @@ tar -xvzf PLANiTSv032920_v1.1.tar.gz
 java -Xmx25g -jar /path/to/rdp_classifier_2.13/dist/classifier.jar classify -t PLANiTSv032920_v1.1/rRNAClassifier.properties -o outfile.txt query.fasta 
 ```
 
-## Get PLANiTS data and prepare it
 
-The following steps are only needed if you are interested in the steps I took to reform QIIME formatted files for use with the  RDP classifier.
+And that's it!  The following steps are only needed if you are interested in the steps I took to reform QIIME formatted files for use with the  RDP classifier.  You can also check under the 'Releases' section to see what bootstrap support cutoffs are ideal given your average query length.
+
+## Get PLANiTS data and prepare it
 
 1. Obtain PLANiTS data from https://github.com/apallavicini/PLANiTS , decompress it, and enter the directory.
 
@@ -259,13 +260,7 @@ java -Xmx25g -jar  /path/to/rdp_classifier_2.13/dist/classifier.jar loot -q mytr
 
 ## Releases
 
-
-
-### v1.0
-
-This version is based on the PLANiTS reference set (29_03_2020) available from https://github.com/apallavicini/PLANiTS .  Sequences were dereplicated to avoid inflating accuracy during leave one out testing.  Some taxa were edited to manage unknown (NA) and non-unique taxa to ensure a strictly hierarchical taxonomy using NCBI taxonomy as a guide.  
-
-The v1 release can be downloaded from https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/tag/v1.0 .  These files are ready to be used with the RDP classifier and were tested using v2.13.  The original files used to train the classifier v1-ref can be downloaded from https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/tag/v1.0-ref and include a FASTA sequence file and taxonomy file.  
+### v1.1
 
 Assuming that your query sequences are present in the reference set, assignments to the genus to kingdom rank were found to be  correct at least 95% of the time (no bootstrap cutoff needed).  Assignments to the species rank, however, were found to be correct at least 70% of the time when a bootstrap support cutoff of 0.90 is used to filter query sequences that are ~ 200 bp in length.
 
@@ -278,6 +273,12 @@ Order | 0
 Family | 0
 Genus | 0  
 Species | 0.9  
+
+### v1.0
+
+This version is based on the PLANiTS reference set (29_03_2020) available from https://github.com/apallavicini/PLANiTS .  Sequences were dereplicated to avoid inflating accuracy during leave one out testing.  Some taxa were edited to manage unknown (NA) and non-unique taxa to ensure a strictly hierarchical taxonomy using NCBI taxonomy as a guide.  
+
+The v1 release can be downloaded from https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/tag/v1.0 .  These files are ready to be used with the RDP classifier and were tested using v2.13.  The original files used to train the classifier v1-ref can be downloaded from https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/tag/v1.0-ref and include a FASTA sequence file and taxonomy file.  
 
 # References
 
