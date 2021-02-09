@@ -1,13 +1,14 @@
 # PLANiTS ITS reference set for the RDP Classifier
 
-A plant ITS reference set has been refgormatted to work with the RDP classifier.  I convert the QIIME-formatted PLANiTS files for use with the stand-alone version of the RDP classifier.  It has only been tested on the QIIME formatted PLANiTS release 29_03_2020 available from https://github.com/apallavicini/PLANiTS .  It is currently trained to the species rank.  Leave one sequence out testing is currently in progress.
+A plant ITS reference set has been refgormatted to work with the RDP classifier.  I convert the QIIME-formatted PLANiTS files for use with the stand-alone version of the RDP classifier.  It has only been tested on the QIIME formatted PLANiTS release 29_03_2020 available from https://github.com/apallavicini/PLANiTS .  It is currently trained to the species rank.  I have also added some fungal ITS outgroup sequences from the UNITE v8.2 reference set available from https://unite.ut.ee/repository.php as well as some microsporidian outgroup sequencs from the 2014 UNITE reference set available from https://sourceforge.net/projects/rdp-classifier/.  Leave one sequence out testing is currently in progress.
 
-The PLANiTS v1 training files and trained files ready for use with the RDP classifier are available at https://github.com/terrimporter/PLANiTS_ITSClassifier/releases .
+The PLANiTS v1.1 training files and trained files ready for use with the RDP classifier are available at https://github.com/terrimporter/PLANiTS_ITSClassifier/releases .
 
 ## Overview
 
 [How to classify your sequences](#How-to-classify-your-sequences)   
-[Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)   
+[Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)  
+[Get outgroup data and add it to PLANiTS](#Get-outgroup-data-and-add-it-to-PLANiTS)
 [Train and test the RDP Classifier](#Train-and-test-the-RDP-Classifier)   
 [Releases](#Releases)   
 
@@ -16,7 +17,7 @@ The PLANiTS v1 training files and trained files ready for use with the RDP class
 1. Download the latest version of the RDP-formatted PLANiTS reference set and decompress it.
 
 ```linux
-wget https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/download/v1.0/PLANiTSv032920.tar.gz
+wget https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/download/v1.1/PLANiTSv032920.tar.gz
 tar -xvzf PLANiTSv032920.tar.gz
 ```
 
@@ -131,10 +132,95 @@ vi -c '1,$s/NA;Canellales;/Magnoliopsida;Canellales;/' -c "wq" ITS_taxonomy2
 vi -c '1,$s/NA;Araucariales;/Pinopsida;Araucariales;/' -c "wq" ITS_taxonomy2
 ```
 
-7. Convert the QIIME-formatted PLANiTS sequence and taxonomy files so that they can be used to train the RDP Classifier.  The two output files are a sequence file called mytrainseq.fasta and a taxonomy file called mytaxon.txt .
+## Get outgroup data and add it to PLANiTS
+
+1. Get QIIME-formatted fungal sequences from UNITE v8.2 https://unite.ut.ee/repository.php , decompress it, enter directory.  I worked with the 'dynamic' files that includes singletons and sequences clustered at a variety of similarities from 0.3 - 3%.
+
+2. Dereplicate the sequences.  Convert to a strictly formatted FASTA file (no multi-line sequences allowed). 
+```linux
+# vsearch v2.14.1 dereplication
+vsearch --derep_fulllength sh_refs_qiime_ver8_dynamic_04.02.2020.fasta --output unite_dynamic.fasta
+
+# convert to a strictly formatted FASTA file
+perl messedup_fasta_to_strict_fasta.plx < unite_dynamic.fasta > unite_dynamic.fasta.strict 
+```
+
+3. Get microsporidian sequences from UNITE (2014) reference set https://sourceforge.net/projects/rdp-classifier/ , decompress it, enter directory.  Grab just the protozoa and tweak the formatting.
 
 ```linux
-perl qiime_planits_to_rdp.plx ITS.fasta.derep.strict ITS_taxonomy2
+# grab the protozoa
+grep -A1 Protozoa UNITE.RDP_04.07.14.rmdup.fasta > nonfungi.fasta  
+
+# tweak formatting
+vi -c '1,$s/^--$//g' -c 'wq' nonfungi.fasta
+vi -c 'g/^$/d' -c 'wq' nonfungi.fasta
+
+# create QIIME-formatted sequence file
+perl strip_lineage_from_fasta.plx < nonfungi.fasta > nonfungi.fasta2
+
+# create QIIME-formatted taxonomy file
+perl create_qiime_taxonomy.plx < nonfungi.fasta > nonfungi.tax
+```
+
+4. Combine the fungi and microsporidian files.
+```linux
+# combine the QIIME-formatted FASTA files
+cat unite_dynamic.fasta.strict fungalits_UNITE_trainingdata_07042014/nonfungi.fasta2 > unite_outgroup.fasta
+
+# combine the QIIME-formatted taxonomy files
+cat sh_taxonomy_qiime_ver8_dynamic_04.02.2020.txt fungalits_UNITE_trainingdata_07042014/nonfungi.tax > unite_outgroup.txt
+```
+
+5. Fix taxon names to ensure a strictly hierarchical taxonomy. ex. a genus can not belong to more than one family.  The NCBI taxonomy database was used to ensure taxonomic consistency.
+
+```linux
+vi -c '1,$s/f__Tremellaceae;g__Cryptococcus;/f__Cryptococcaceae;g__Cryptococcus;/' -c 'wq' unite_outgroup.txt
+vi -c '1,$s/f__Helotiaceae;g__Cenangiopsis;/f__Cenangiaceae;g__Cenangiopsis;/' -c 'wq' unite_outgroup.txt
+vi -c '1,$s/f__Pezizaceae;g__Aleurina;/f__Pyronemataceae;g__Aleurina;/' -c 'wq' unite_outgroup.txt
+vi -c '1,$s/f__Trematosphaeriaceae;g__Brevicollum;/f__Neohendersoniaceae;g__Brevicollum;/' -c 'wq' unite_outgroup.txt
+vi -c '1,$s/f__unidentified;g__Brevicollum;/f__Neohendersoniaceae;g__Brevicollum;/' -c 'wq' unite_outgroup.txt
+vi -c '1,$s/f__Nectriaceae;g__Cylindrium;/f__Hypocreales_fam_Incertae_sedis;g__Cylindrium;/' -c 'wq' unite_outgroup.txt
+```
+
+6. Filter out unidentified species.  The outfile is called unite_outgroup2.txt .
+
+```linux
+perl filter_out_unident_species.plx unite_outgroup.fasta unite_outgroup.txt
+```
+
+7. Dereplicate and cluster the sequences, aiming for about 50 outgroup sequences.  Convert to a strictly formatted FASTA file.
+
+```linux
+# vsearch 2.14.1
+vsearch --derep_fulllength unite_outgroup2.fasta --output unite_outgroup2.fasta.derep
+vsearch --cluster_fast unite_outgroup2.fasta.derep --centroids unite_outgroup2.fasta.derep.centroids --id 0.5
+perl messedup_fasta_to_strict_fasta.plx < unite_outgroup2.fasta.derep.centroids > unite_outgroup2.fasta.derep.centroids.fasta
+```
+
+8. For each sequence in the FASTA file, grab corresponding taxonomy.  The outfile is unite_outgroup3.txt
+
+```linux
+perl grab_tax_for_each_acc2.plx unite_outgroup2.fasta.derep.centroids.fasta unite_outgroup2.txt
+```
+
+9. Combine the plant and fungal+microsporidian outgroup files.  
+
+```linux
+cat ITS.fasta.derep.strict unite_outgroup2.fasta.derep.centroids.fasta > PLANiTS_unite_outgroups.fasta
+cat ITS_taxonomy2 unite_outgroup3.txt > PLANiTS_unite_outgroups.txt
+```
+
+10.  Edit the plant taxonomy file to include kingdom 'Viridiplantae'.
+
+```linux
+vi -c '1,$s/\tChlorophyta;/\tViridiplantae;Chlorophyta;/g' -c 'wq' PLANiTS_unite_outgroups.txt
+vi -c '1,$s/\tStreptophyta;/\tViridiplantae;Chlorophyta;/g' -c 'wq' PLANiTS_unite_outgroups.txt
+```
+
+11.  Convert the QIIME-formatted files into files that can be used to train the RDP Classifier.
+
+```linux
+perl qiime_planits_to_rdp2.plx PLANiTS_unite_outgroups.fasta PLANiTS_unite_outgroups.txt
 ```
 
 ## Train and test the RDP Classifier
@@ -173,6 +259,8 @@ java -Xmx25g -jar  /path/to/rdp_classifier_2.13/dist/classifier.jar loot -q mytr
 
 ## Releases
 
+
+
 ### v1.0
 
 This version is based on the PLANiTS reference set (29_03_2020) available from https://github.com/apallavicini/PLANiTS .  Sequences were dereplicated to avoid inflating accuracy during leave one out testing.  Some taxa were edited to manage unknown (NA) and non-unique taxa to ensure a strictly hierarchical taxonomy using NCBI taxonomy as a guide.  
@@ -197,4 +285,4 @@ Banchi, E.; Ametrano, C.G.; Greco, S.; Stanković, D.; Muggia, L.; Pallavicini, 
 
 Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. Available from https://sourceforge.net/projects/rdp-classifier/
 
-Last updated: February 6, 2021
+Last updated: February 9, 2021
