@@ -262,17 +262,17 @@ java -Xmx25g -jar  /path/to/rdp_classifier_2.13/dist/classifier.jar loot -q mytr
 
 ### v1.1
 
-Assuming that your query sequences are present in the reference set, assignments to the genus to kingdom rank were found to be  correct at least 95% of the time (no bootstrap cutoff needed).  Assignments to the species rank, however, were found to be correct at least 70% of the time when a bootstrap support cutoff of 0.90 is used to filter query sequences that are ~ 200 bp in length.
+Assuming that your query sequences are present in the reference set, assignments to the kingdom to genus rank were found to be  correct at least 90% of the time (no bootstrap cutoff needed).  Assignments to the species rank, however, were found to be correct at least 70% of the time when a bootstrap support cutoff of 0.90 is used.
 
-Rank | 200 bp** to be updated  
-:--- | :---:  
-Kingdom | 0  
-Phylum | 0  
-Class | 0 
-Order | 0
-Family | 0
-Genus | 0  
-Species | 0.9  
+Rank | 200 bp | 300 bp | Full length  
+:--- | :---: | :---: | :---:  
+Kingdom | 0 | 0 | 0  
+Phylum | 0 | 0 | 0  
+Class | 0 | 0 | 0  
+Order | 0 | 0 | 0  
+Family | 0 | 0 | 0  
+Genus | 0 | 0 | 0   
+Species | 0.9 | 0.9 | 0.9   
 
 ### v1.0
 
@@ -286,4 +286,4 @@ Banchi, E.; Ametrano, C.G.; Greco, S.; Stanković, D.; Muggia, L.; Pallavicini, 
 
 Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. Available from https://sourceforge.net/projects/rdp-classifier/
 
-Last updated: February 9, 2021
+Last updated: February 22, 2021
