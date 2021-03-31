@@ -6,31 +6,43 @@ The PLANiTS v1.1 training files and trained files ready for use with the RDP cla
 
 ## Overview
 
-[How to classify your sequences](#How-to-classify-your-sequences)   
-[Get PLANiTS data and prepare it](#Get-PLANiTS-data-and-prepare-it)  
-[Get outgroup data and add it to PLANiTS](#Get-outgroup-data-and-add-it-to-PLANiTS)
-[Train and test the RDP Classifier](#Train-and-test-the-RDP-Classifier)   
+[Quick Start](#Quick-Start)   
+[How this dataset was prepared](#How-this-dataset-was-prepared)   
 [Releases](#Releases)   
 
-## How to classify your sequences
-
-1. Download the latest version of the RDP-formatted PLANiTS reference set and decompress it.
+## Quick Start
 
 ```linux
+############ Install the RDP classifier if you need it
+# The easiest way to install the RDP classifier v2.13 is using conda
+conda install -c bioconda rdp_classifier
+# Alternatively, you can install from SourceForge and run with java if you don't use conda
+wget https://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.13.zip
+# decompress it
+unzip rdp_classifier_2.13
+# record path to classifier.jar ex. /path/to/rdp_classifier_2.13/dist/classifier.jar
+
+############ Get the latest RDP-formatted PLANiTS training set
 wget https://github.com/terrimporter/PLANiTS_ITSClassifier/releases/download/v1.1/PLANiTSv032920_v1.1.tar.gz
-tar -xvzf PLANiTSv032920_v1.1.tar.gz
-```
 
-2. Run the RDP Classifier.
+# decompress it
+tar -xvf PLANiTSv032920_v1.1.tar.gz
 
-```linux
-java -Xmx25g -jar /path/to/rdp_classifier_2.13/dist/classifier.jar classify -t PLANiTSv032920_v1.1/rRNAClassifier.properties -o outfile.txt query.fasta 
+# record the path to the rRNAClassifier.properties file ex. /path/to/mydata_trained/rRNAClassifier.properties
+
+############ Run the RDP Classifier 
+# If it was installed using conda, run it like this:
+rdp_classifier -Xmx8g classify -t /path/to/mydata_trained/rRNAClassifier.properties -o rdp.output query.fasta
+# Otherwise run it using java like this:
+java -Xmx8g -jar /path/to/rdp_classifier_2.13/classifier.jar -t /path/to/mydata_trained/rRNAClassifie
 ```
 
 
 And that's it!  The following steps are only needed if you are interested in the steps I took to reform QIIME formatted files for use with the  RDP classifier.  You can also check under the 'Releases' section to see what bootstrap support cutoffs are ideal given your average query length.
 
-## Get PLANiTS data and prepare it
+## How this dataset was prepared
+
+### Get PLANiTS data and prepare it
 
 1. Obtain PLANiTS data from https://github.com/apallavicini/PLANiTS , decompress it, and enter the directory.
 
@@ -133,7 +145,7 @@ vi -c '1,$s/NA;Canellales;/Magnoliopsida;Canellales;/' -c "wq" ITS_taxonomy2
 vi -c '1,$s/NA;Araucariales;/Pinopsida;Araucariales;/' -c "wq" ITS_taxonomy2
 ```
 
-## Get outgroup data and add it to PLANiTS
+### Get outgroup data and add it to PLANiTS
 
 1. Get QIIME-formatted fungal sequences from UNITE v8.2 https://unite.ut.ee/repository.php , decompress it, enter directory.  I worked with the 'dynamic' files that includes singletons and sequences clustered at a variety of similarities from 0.3 - 3%.
 
@@ -224,7 +236,7 @@ vi -c '1,$s/\tStreptophyta;/\tViridiplantae;Chlorophyta;/g' -c 'wq' PLANiTS_unit
 perl qiime_planits_to_rdp2.plx PLANiTS_unite_outgroups.fasta PLANiTS_unite_outgroups.txt
 ```
 
-## Train and test the RDP Classifier
+### Train and test the RDP Classifier
 
 1. Train the RDP Classifier.
 
@@ -286,4 +298,4 @@ Banchi, E.; Ametrano, C.G.; Greco, S.; Stanković, D.; Muggia, L.; Pallavicini, 
 
 Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. Available from https://sourceforge.net/projects/rdp-classifier/
 
-Last updated: February 22, 2021
+Last updated: March 31, 2021
