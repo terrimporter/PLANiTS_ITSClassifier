@@ -37,13 +37,13 @@ tar -xvf PLANiTSv032920_v1.1.tar.gz
 # If it was installed using conda, run it like this:
 rdp_classifier -Xmx8g classify -t /path/to/mydata_trained/rRNAClassifier.properties -o rdp.output query.fasta
 # Otherwise run it using java like this:
-java -Xmx8g -jar /path/to/rdp_classifier_2.13/classifier.jar -t /path/to/mydata_trained/rRNAClassifie
+java -Xmx8g -jar /path/to/rdp_classifier_2.13/classifier.jar -t /path/to/mydata_trained/rRNAClassifier.properties
 ```
 
 ## How to cite
 
 You can cite this repository directly:  
-PLANiTS ITS Classifier, DOI: 10.5281/zenodo.4741485  
+Teresita M. Porter. (2021, February 6). PLANiTS ITS Reference Set For The RDP Classifier (Version v1.1.1). Zenodo. http://doi.org/10.5281/zenodo.4741485  
 
 Please also cite the original PLANiTS database:  
 Banchi, E., Ametrano, C. G., Greco, S., Stanković, D., Muggia, L., & Pallavicini, A. (2020). PLANiTS: A curated sequence reference dataset for plant ITS DNA metabarcoding. Database, 2020, baz155. doi: 10.1093/database/baz155  
