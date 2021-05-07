@@ -1,12 +1,15 @@
 # PLANiTS ITS reference set for the RDP Classifier
 
-A plant ITS reference set has been refgormatted to work with the RDP classifier.  I convert the QIIME-formatted PLANiTS files for use with the stand-alone version of the RDP classifier.  It has only been tested on the QIIME formatted PLANiTS release 29_03_2020 available from https://github.com/apallavicini/PLANiTS .  It is currently trained to the species rank.  I have also added some fungal ITS outgroup sequences from the UNITE v8.2 reference set available from https://unite.ut.ee/repository.php as well as some microsporidian outgroup sequencs from the 2014 UNITE reference set available from https://sourceforge.net/projects/rdp-classifier/.  Leave one sequence out testing is currently in progress.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4741485.svg)](https://doi.org/10.5281/zenodo.4741485)  
+
+A plant ITS reference set has been refgormatted to work with the RDP classifier.  I convert the QIIME-formatted PLANiTS files for use with the stand-alone version of the RDP classifier.  It has only been tested on the QIIME formatted PLANiTS release 29_03_2020 available from https://github.com/apallavicini/PLANiTS .  It is currently trained to the species rank.  I have also added some fungal ITS outgroup sequences from the UNITE v8.2 reference set available from https://unite.ut.ee/repository.php as well as some microsporidian outgroup sequencs from the 2014 UNITE reference set available from https://sourceforge.net/projects/rdp-classifier/.  Recommended bootstrap support cutoffs to ensure a minimum level of accuracy is shown below under Releases.  
 
 The PLANiTS v1.1 training files and trained files ready for use with the RDP classifier are available at https://github.com/terrimporter/PLANiTS_ITSClassifier/releases .
 
 ## Overview
 
 [Quick Start](#Quick-Start)   
+[How to cite](#How-to-cite)  
 [How this dataset was prepared](#How-this-dataset-was-prepared)   
 [Releases](#Releases)   
 
@@ -37,10 +40,17 @@ rdp_classifier -Xmx8g classify -t /path/to/mydata_trained/rRNAClassifier.propert
 java -Xmx8g -jar /path/to/rdp_classifier_2.13/classifier.jar -t /path/to/mydata_trained/rRNAClassifie
 ```
 
+## How to cite
 
-And that's it!  The following steps are only needed if you are interested in the steps I took to reform QIIME formatted files for use with the  RDP classifier.  You can also check under the 'Releases' section to see what bootstrap support cutoffs are ideal given your average query length.
+You can cite this repository directly:  
+PLANiTS ITS Classifier, DOI: 10.5281/zenodo.4741485  
 
-## How this dataset was prepared
+Please also cite the original PLANiTS database:  
+Banchi, E., Ametrano, C. G., Greco, S., Stanković, D., Muggia, L., & Pallavicini, A. (2020). PLANiTS: A curated sequence reference dataset for plant ITS DNA metabarcoding. Database, 2020, baz155. doi: 10.1093/database/baz155  
+
+## How this dataset was prepared  
+
+The following steps are only needed if you are interested in the steps I took to reform QIIME formatted files for use with the  RDP classifier.  You can also check under the 'Releases' section to see what bootstrap support cutoffs are ideal given your average query length.
 
 ### Get PLANiTS data and prepare it
 
@@ -298,4 +308,4 @@ Banchi, E.; Ametrano, C.G.; Greco, S.; Stanković, D.; Muggia, L.; Pallavicini, 
 
 Wang, Q., Garrity, G. M., Tiedje, J. M., & Cole, J. R. (2007). Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy. Applied and Environmental Microbiology, 73(16), 5261–5267. Available from https://sourceforge.net/projects/rdp-classifier/
 
-Last updated: March 31, 2021
+Last updated: May 6, 2021
